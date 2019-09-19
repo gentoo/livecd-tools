@@ -30,6 +30,25 @@ start()
 	sed -i -e '/^s[01]/ s/^/#/' /etc/inittab
 	sed -i -e '/^b0/ s/^/#/' /etc/inittab
 
+	if [ -z "${LIVECD_CONSOLE}" ]
+	then
+		for c in hvc0
+		do
+			if [ -c "/dev/${c}" ]
+			then
+				LIVECD_CONSOLE_BAUD=$(stty -F "/dev/${c}" speed)
+
+				eindent
+				ebegin "Adding ${c} console to inittab ..."
+				echo "s0:12345:respawn:/sbin/agetty -a root ${LIVECD_CONSOLE_BAUD} ${c}" >> /etc/inittab
+				eend $?
+				eoutdent
+
+				break
+			fi
+		done
+	fi
+
 	# SPARC & HPPA console magic
 	if [ "${HOSTTYPE}" = "sparc" -o "${HOSTTYPE}" = "hppa" ]
 	then
@@ -92,15 +111,6 @@ start()
 			eend $?
 			eoutdent
 		fi
-	fi
-
-	if [ -c "/dev/hvc0" -a "${LIVECD_CONSOLE}" = "" ]
-	then
-		eindent
-		ebegin "Adding hvc console to inittab ..."
-		echo "s0:12345:respawn:/sbin/agetty -a root 9600 hvc0 vt320" >> /etc/inittab
-		eend $?
-		eoutdent
 	fi
 
 	# EFI-based machines should automatically hook up their console lines
