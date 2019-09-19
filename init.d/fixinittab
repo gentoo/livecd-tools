@@ -32,7 +32,7 @@ start()
 
 	if [ -z "${LIVECD_CONSOLE}" ]
 	then
-		for c in hvc0
+		for c in hvc0 ttyHV0
 		do
 			if [ -c "/dev/${c}" ]
 			then
