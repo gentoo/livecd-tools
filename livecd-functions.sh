@@ -135,6 +135,9 @@ livecd_read_commandline() {
 				fi
 				export LIVECD_CONSOLE
 			;;
+			secureconsole)
+				export SECURECONSOLE="yes"
+			;;
 		esac
 	done
 	return 0

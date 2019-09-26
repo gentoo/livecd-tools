@@ -12,12 +12,6 @@ start()
 		return 1
 	fi
 
-	for x in ${CMDLINE} ; do
-		case "${x}" in
-			secureconsole) SECURECONSOLE="yes";;
-    esac
-  done
-
 	ebegin "Adjusting inittab"
 	# Create a backup
 	if [ ! -e /etc/inittab.old ]
