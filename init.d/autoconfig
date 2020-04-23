@@ -393,7 +393,7 @@ start() {
 	echo "0" > /proc/sys/kernel/printk
 	get_config
 
-	local numcpu="$(grep -c '^processor[[:space:]]\+:' /proc/cpuinfo)"
+	local numcpu="$(nproc)"
 	eindent
 	ebegin "Setting sane defaults in /etc/portage/make.conf"
 	if [ -f "/etc/portage/make.conf" ] && checkpath -W /etc/portage/make.conf; then
