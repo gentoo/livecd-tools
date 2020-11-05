@@ -228,10 +228,6 @@ list_services() {
 	svcs="${svcs} $(check_svc ${APM} apmd)"
 	svcs="${svcs} $(check_svc ${BRLTTY} brltty)"
 	svcs="${svcs} $(check_svc ${COLDPLUG} coldplug hotplug)"
-	if yesno "$COLDPLUG" && ! rc-service -e coldplug && ! rc-service -e hotplug
-	then
-		echo hwsetup
-	fi
 	svcs="${svcs} $(check_svc ${GPM} gpm)"
 	svcs="${svcs} $(check_svc ${IDEDMA} hdparm)"
 	svcs="${svcs} $(check_svc ${NFS} nfsclient)"
@@ -518,9 +514,6 @@ start() {
 		ewarn "Skipping DHCP broadcast ..."
 	fi
 
-	# Read in what hwsetup has found
-	[ -f /etc/sysconfig/gentoo ] && source /etc/sysconfig/gentoo
-
 	if yesno "${DETECT}"
 	then
 		NETDEVICES="$(detect_netdevices)"
@@ -559,24 +552,11 @@ start() {
 		ewarn "No Network device auto detected ..."
 	fi
 
-	if yesno "${ALSA}"
+	if ! yesno "${ALSA}"
 	then
-		if [ -n "${SOUND_FULLNAME}" -o -n "${SOUND_DRIVER}" ]
-		then
-			einfo "Soundcard:  "
-
-			[ -n "${SOUND_FULLNAME}" ] \
-				&& einfo "              ${WARN}${SOUND_FULLNAME}  "
-			[ -n "${SOUND_DRIVER}" ] \
-				&& einfo "              driver = ${SOUND_DRIVER}"
-		fi
-	else
-		ewarn "Skipping ALSA detection as requested on command line ..."
+		ewarn "Skipping ALSA services as requested on command line ..."
 	fi
 
-	[ -n "${XDESC}" ] && einfo "VideoCard:   ${HILITE}${XDESC}${NORMAL}"
-
-	killall hwsetup 2>/dev/null
 	echo "6" > /proc/sys/kernel/printk
 
 	if ! yesno "${X11}"
