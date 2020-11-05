@@ -232,7 +232,6 @@ list_services() {
 	then
 		echo hwsetup
 	fi
-	svcs="${svcs} $(check_svc ${GPM} gpm-pre)"
 	svcs="${svcs} $(check_svc ${GPM} gpm)"
 	svcs="${svcs} $(check_svc ${IDEDMA} hdparm)"
 	svcs="${svcs} $(check_svc ${NFS} nfsclient)"
@@ -521,14 +520,6 @@ start() {
 
 	# Read in what hwsetup has found
 	[ -f /etc/sysconfig/gentoo ] && source /etc/sysconfig/gentoo
-
-	# Mouse
-	# FIXME: If MOUSE_DEVICE is empty, we actually do not want to do anything, not even start gpm.
-	if [ -n "${MOUSE_DEVICE}" ]
-	then
-		:
-		# Migrated to autoconfig-gpm-pre
-	fi
 
 	if yesno "${DETECT}"
 	then
