@@ -529,7 +529,7 @@ start() {
 		if yesno "${DHCP}"
 		then
 			einfo "DHCP broadcasting for IP on all detected interfaces ..."
-			if [ ! -f /run/dhcpcd.pid ]
+			if [ -f /run/dhcpcd.pid ]
 			then
 				kill $(cat /run/dhcpcd.pid)
 				sleep 2
