@@ -23,10 +23,11 @@ start()
 	sed -i -e '/^c[0-9]/ s/^/#/' /etc/inittab
 	sed -i -e '/^s[01]/ s/^/#/' /etc/inittab
 	sed -i -e '/^b0/ s/^/#/' /etc/inittab
+	sed -i -e '/^f0/ s/^/#/' /etc/inittab
 
 	if [ -z "${LIVECD_CONSOLE}" ]
 	then
-		for c in hvc0 ttyHV0
+		for c in hvc0 ttyHV0 ttyAMA0
 		do
 			if [ -c "/dev/${c}" ]
 			then
