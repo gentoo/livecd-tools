@@ -86,6 +86,9 @@ get_config() {
 			nox)
 				X11="no"
 			;;
+			nogui)
+				X11="no"
+			;;
 			acpi\=on|acpi\=force)
 				ACPI="yes"
 				APM="no"
