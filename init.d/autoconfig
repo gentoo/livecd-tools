@@ -224,7 +224,7 @@ list_services() {
 	local svcs="$(check_svc ${ACPI} acpid)"
 	svcs="${svcs} $(check_svc ${ALSA} alsasound)"
 	svcs="${svcs} $(check_svc ${ALSA} unmute)"
-	if [ "${SPEAKUP_MODULE}" = "speakup_soft" ]  && rc-service -e espeakup
+	if grep -qw 'dospeakup' /proc/cmdline  && rc-service -e espeakup
 	then
 		svcs="${svcs} espeakup"
 	fi
